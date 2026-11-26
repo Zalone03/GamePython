@@ -1,0 +1,128 @@
+/* =========== */
+/* Controles */
+/* =========== */
+
+/* Escondidos no computador (aparecem só em tela de toque, no fim do arquivo) */
+.controles {
+  display: none;
+  width: var(--largura-tela);
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6px;
+}
+
+/* Botões sem o destaque azul do toque e sem selecionar texto */
+.controles button {
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* =========== */
+/* Cruz direcional */
+/* =========== */
+
+.dpad {
+  --braco: 46px;
+  display: grid;
+  grid-template-columns: repeat(3, var(--braco));
+  grid-template-rows: repeat(3, var(--braco));
+  grid-template-areas:
+    ".        cima   ."
+    "esquerda centro direita"
+    ".        baixo  .";
+  padding: 10px;
+  border-radius: 50%;
+  background: var(--metal-linha);
+  box-shadow: inset 0 0 0 3px var(--metal-borda);
+}
+
+/* Braços da cruz */
+.dpad .seta,
+.dpad .centro {
+  background: #2a2a2a;
+}
+
+.dpad .seta { box-shadow: inset 0 -4px 0 #111; }
+.dpad .seta:active { box-shadow: inset 0 3px 0 #111; }
+
+.dpad .seta.cima     { grid-area: cima;     border-radius: 6px 6px 0 0; }
+.dpad .seta.baixo    { grid-area: baixo;    border-radius: 0 0 6px 6px; }
+.dpad .seta.esquerda { grid-area: esquerda; border-radius: 6px 0 0 6px; }
+.dpad .seta.direita  { grid-area: direita;  border-radius: 0 6px 6px 0; }
+.dpad .centro        { grid-area: centro; }
+
+/* Setinha desenhada em cada braço */
+.dpad .seta::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  margin: auto;
+  border: 7px solid transparent;
+}
+.dpad .seta.cima::after     { border-bottom-color: #555; margin-top: 8px; }
+.dpad .seta.baixo::after    { border-top-color: #555; margin-top: 18px; }
+.dpad .seta.esquerda::after { border-right-color: #555; margin-left: 8px; }
+.dpad .seta.direita::after  { border-left-color: #555; margin-left: 18px; }
+
+/* =========== */
+/* Botões A e B */
+/* =========== */
+
+.botoes-acao {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+}
+
+/* Botão com o nome embaixo */
+.botao-acao {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+  color: var(--listra);
+}
+
+/* A fica mais alto que o B, na diagonal */
+.botao-acao.a { margin-bottom: 36px; }
+
+.redondo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--listra);
+  box-shadow:
+    0 0 0 4px var(--metal-linha),
+    0 0 0 6px var(--metal-borda),
+    inset 0 -6px 0 var(--listra-escura);
+}
+.redondo:active {
+  box-shadow:
+    0 0 0 4px var(--metal-linha),
+    0 0 0 6px var(--metal-borda),
+    inset 0 4px 0 var(--listra-escura);
+}
+
+/* =========== */
+/* Celular */
+/* =========== */
+
+/* Em tela de toque: mostra os controles e diminui a tela para caber tudo */
+@media (hover: none) and (pointer: coarse) {
+  :root {
+    --largura-tela: calc(100vw - 52px);
+    --altura-tela: clamp(220px, calc(100svh - 330px), 520px);
+  }
+
+  body::after { border-width: 10px; }
+
+  .controles { display: flex; }
+
+  .so-celular { display: block; }
+}

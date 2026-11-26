@@ -1,0 +1,69 @@
+#===========
+# Publicar no GitHub Pages
+#===========
+
+# A cada push na main, compila o portátil (web/) e publica em https://zalone03.github.io/GamePython/
+name: Publicar no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Botão "Run workflow" na aba Actions, para publicar na mão
+  workflow_dispatch:
+
+# Permissões que o deploy do Pages precisa
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Se der dois pushes seguidos, só o último é publicado
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  #===========
+  # Compilar
+  #===========
+
+  compilar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Node com cache das dependências do web/
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Instalar dependências
+        run: npm ci
+        working-directory: web
+
+      - name: Compilar o site
+        run: npm run build
+        working-directory: web
+
+      - uses: actions/configure-pages@v5
+
+      # Envia a pasta compilada para o Pages
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+  #===========
+  # Publicar
+  #===========
+
+  publicar:
+    needs: compilar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

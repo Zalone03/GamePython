@@ -1,0 +1,91 @@
+/* =========== */
+/* Cores */
+/* =========== */
+
+:root {
+  /* Placa bege "escovada" */
+  --metal: #d8d3c4;
+  --metal-linha: #cdc7b6;
+  --metal-borda: #b9b2a0;
+
+  /* Moldura de plástico amarelo */
+  --amarelo: #f0d36a;
+  --amarelo-escuro: #c9a53e;
+
+  /* Faixa e botões */
+  --listra: #b8352a;
+  --listra-escura: #7d2119;
+
+  /* Moldura escura da tela */
+  --moldura: #2b2723;
+
+  /* LCD e a "tinta" do texto */
+  --lcd: #b9c49a;
+  --lcd-linha: rgba(31, 38, 22, .05);
+  --tinta: #1f2616;
+  --tinta-fraca: #5d6a47;
+  --marrom: #6a3a1e;
+
+  /* Tamanho FIXO da tela: depende só da janela, nunca do conteúdo */
+  --largura-tela: min(760px, calc(100vw - 96px));
+  --altura-tela: clamp(300px, calc(100vh - 140px), 520px);
+}
+
+/* =========== */
+/* Página */
+/* =========== */
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; height: 100%; }
+
+/* Fundo de metal bege escovado (linhas horizontais finas) */
+body {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  font-family: "VT323", monospace;
+  color: var(--tinta);
+  background: repeating-linear-gradient(to bottom, var(--metal) 0 2px, var(--metal-linha) 2px 3px);
+}
+
+/* Faixa vermelha atravessando a página: listra grossa, respiro e listra fina */
+body::before {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 96px;
+  transform: translateY(-50%);
+  background: linear-gradient(var(--listra) 0 68%, transparent 68% 80%, var(--listra) 80%);
+}
+
+/* Moldura amarela em volta da página inteira */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  border: 18px solid var(--amarelo);
+  box-shadow: inset 0 0 0 3px var(--amarelo-escuro);
+}
+
+/* Tela e controles, um embaixo do outro, por cima da faixa */
+.aparelho {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+/* =========== */
+/* Acessibilidade */
+/* =========== */
+
+/* Sem animações para quem pediu menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; }
+}

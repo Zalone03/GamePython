@@ -1,0 +1,2 @@
+Quadros da minigun recortados da folha de sprites enviada para o projeto (assinatura "T5F" na folha).
+0-7.png: canos girando. fogo/0-7.png: os mesmos quadros com o clarão do tiro encaixado na ponta dos canos.

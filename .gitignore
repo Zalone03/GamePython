@@ -1,0 +1,25 @@
+#===========
+# Python
+#===========
+
+# Arquivos compilados do Python
+__pycache__/
+*.pyc
+
+#===========
+# Site (web)
+#===========
+
+# Dependências do npm e o site compilado (o GitHub Actions gera de novo)
+web/node_modules/
+web/dist/
+
+#===========
+# Local
+#===========
+
+# Configuração local do Claude (servidor de teste)
+.claude/
+
+# Zips baixados (o DOOM já está extraído em doom/)
+*.zip
